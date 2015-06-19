@@ -1,0 +1,7 @@
+include LICENSE
+include README.md
+recursive-include webmoney_merchant/locale *
+recursive-include webmoney_merchant/management *
+recursive-include webmoney_merchant/migrations *
+recursive-include webmoney_merchant/templates *
+recursive-exclude * *.pyc

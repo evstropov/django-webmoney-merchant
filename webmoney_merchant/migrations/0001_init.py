@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models, migrations
 from django.conf import settings
 
@@ -22,8 +21,8 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(verbose_name='User', to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name': 'Invoice',
-                'verbose_name_plural': 'Invoices',
+                'verbose_name': 'invoice',
+                'verbose_name_plural': 'invoices',
             },
         ),
         migrations.CreateModel(
@@ -33,7 +32,7 @@ class Migration(migrations.Migration):
                 ('created_on', models.DateTimeField(auto_now_add=True, verbose_name='Created on')),
                 ('amount', models.DecimalField(verbose_name='Amount', max_digits=9, decimal_places=2)),
                 ('payment_no', models.PositiveIntegerField(unique=True, verbose_name='Payment no')),
-                ('mode', models.PositiveSmallIntegerField(verbose_name='Mode', choices=[(0, 'REAL'), (1, 'TEST')])),
+                ('mode', models.PositiveSmallIntegerField(verbose_name='Mode', choices=[(0, b'REAL'), (1, b'TEST')])),
                 ('sys_invs_no', models.PositiveIntegerField(verbose_name='LMI_SYS_INVS_NO')),
                 ('sys_trans_no', models.PositiveIntegerField(verbose_name='LMI_SYS_TRANS_NO')),
                 ('sys_trans_date', models.DateTimeField(verbose_name='LMI_SYS_TRANS_DATE')),
@@ -47,8 +46,8 @@ class Migration(migrations.Migration):
                 ('invoice', models.OneToOneField(related_name='payment', null=True, blank=True, to='webmoney_merchant.Invoice', verbose_name='Invoice')),
             ],
             options={
-                'verbose_name': 'Payment',
-                'verbose_name_plural': 'Payments',
+                'verbose_name': 'payment',
+                'verbose_name_plural': 'payments',
             },
         ),
         migrations.CreateModel(
@@ -59,8 +58,8 @@ class Migration(migrations.Migration):
                 ('secret_key', models.CharField(max_length=50, verbose_name='Secret key')),
             ],
             options={
-                'verbose_name': 'Purse',
-                'verbose_name_plural': 'Purses',
+                'verbose_name': 'purse',
+                'verbose_name_plural': 'purses',
             },
         ),
         migrations.AddField(
