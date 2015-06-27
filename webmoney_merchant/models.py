@@ -6,7 +6,13 @@ from django.db import IntegrityError, models, transaction
 
 
 class Purse(models.Model):
+
+    # https://wiki.webmoney.ru/projects/webmoney/wiki/titulnye_znaki
+    PURSE_TYPE_CHOICES = [(i, 'WM%s' % i) for i in ('B', 'C', 'D', 'E', 'G', 'K', 'R', 'U', 'X', 'Y', 'Z')]
+
     purse = models.CharField(_('Purse'), max_length=13, unique=True)
+    purse_type = models.CharField(_('Purse type'), max_length=1, unique=True, default=PURSE_TYPE_CHOICES[0][0],
+                                  choices=PURSE_TYPE_CHOICES)
     secret_key = models.CharField(_('Secret key'), max_length=50)
 
     class Meta:
@@ -18,7 +24,7 @@ class Purse(models.Model):
 
 
 class Invoice(models.Model):
-    user = models.ForeignKey('auth.User', verbose_name=_("User"))
+    user = models.ForeignKey('auth.User', verbose_name=_("User"), editable=False)
     created_on = models.DateTimeField(_("Created on"), unique=True, editable=False)
     payment_no = models.PositiveIntegerField(_("Payment on"), unique=True, editable=False)
     payment_info = models.CharField(_("Payment Info"), editable=False, max_length=128)
@@ -88,9 +94,9 @@ class Payment(models.Model):
     amount = models.DecimalField(_('Amount'), decimal_places=2, max_digits=9)
     payment_no = models.PositiveIntegerField(_('Payment no'), unique=True)
     mode = models.PositiveSmallIntegerField(_('Mode'), choices=PAYMENT_MODE_CHOICES)
-    sys_invs_no = models.PositiveIntegerField(_('LMI_SYS_INVS_NO'))
-    sys_trans_no = models.PositiveIntegerField(_('LMI_SYS_TRANS_NO'))
-    sys_trans_date = models.DateTimeField(_('LMI_SYS_TRANS_DATE'))
+    sys_invs_no = models.PositiveIntegerField('LMI_SYS_INVS_NO')
+    sys_trans_no = models.PositiveIntegerField('LMI_SYS_TRANS_NO')
+    sys_trans_date = models.DateTimeField('LMI_SYS_TRANS_DATE')
     payer_purse = models.CharField(_('Payer purse'), max_length=13)
     payer_wm = models.CharField(_('Payer WM'), max_length=12)
     paymer_number = models.CharField(_('Paymer number'), max_length=30, blank=True)

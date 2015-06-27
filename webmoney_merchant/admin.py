@@ -8,6 +8,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_on'
     ordering = ['-created_on', 'user']
     search_fields = ['payment_no', 'created_on']
+    list_display_links = None
 
 admin.site.register(Invoice, InvoiceAdmin)
 

@@ -2,7 +2,7 @@ import re
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-PURSE_RE = re.compile(r'^(?P<type>[ZREUYBGDC])(?P<number>\d{12})$')
+PURSE_RE = re.compile(r'^(?P<type>[BCDEGKRUXYZ])(?P<number>\d{12})$')
 WMID_RE = re.compile(r'^\d{12}$')
 
 
