@@ -18,11 +18,10 @@ def result(request):
     payment_no = int(request.POST['LMI_PAYMENT_NO'])
 
     if form.is_valid() and form.cleaned_data['LMI_PREREQUEST']:
-        try:
-            Invoice.objects.get(payment_no=payment_no)
-        except ObjectDoesNotExist:
+        if Invoice.objects.filter(payment_no=payment_no).exists():
+            return HttpResponse("YES")
+        else:
             return HttpResponseBadRequest("Invoice with number %s not found." % payment_no)
-        return HttpResponse("YES")
 
     form = PaymentNotificationForm(request.POST)
     if form.is_valid():

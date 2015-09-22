@@ -51,9 +51,6 @@ class PayedPaymentForm(BasePaymentForm):
 class PaymentNotificationForm(PrerequestForm, PayedPaymentForm):
     LMI_HASH = forms.CharField()
 
-    # Please do not USE IT!!! Security flaw!
-    # LMI_SECRET_KEY
-
 
 class SettledPaymentForm(PayedPaymentForm, ExtraPaymentForm):
     pass

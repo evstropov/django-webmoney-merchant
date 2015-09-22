@@ -1,13 +1,14 @@
-from datetime import datetime, timedelta
-from time import sleep
+import random
+from datetime import timedelta
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError, models, transaction
 
 
 class Purse(models.Model):
 
-    # https://wiki.webmoney.ru/projects/webmoney/wiki/titulnye_znaki
+    # https://wiki.webmoney_merchant.ru/projects/webmoney_merchant/wiki/titulnye_znaki
     PURSE_TYPE_CHOICES = [(i, 'WM%s' % i) for i in ('B', 'C', 'D', 'E', 'G', 'K', 'R', 'U', 'X', 'Y', 'Z')]
 
     purse = models.CharField(_('Purse'), max_length=13, unique=True)
@@ -19,13 +20,20 @@ class Purse(models.Model):
         verbose_name = _("purse")
         verbose_name_plural = _("purses")
 
+    @classmethod
+    def get_purse_type_for_type(cls, purse):
+        try:
+            return cls.objects.filter(purse_type=purse.upper()).get().purse
+        except ObjectDoesNotExist:
+            return None
+
     def __unicode__(self):
         return self.purse
 
 
 class Invoice(models.Model):
     user = models.ForeignKey('auth.User', verbose_name=_("User"), editable=False)
-    created_on = models.DateTimeField(_("Created on"), unique=True, editable=False)
+    created_on = models.DateTimeField(_("Created on"), unique=True, editable=False, auto_now_add=True)
     payment_no = models.PositiveIntegerField(_("Payment on"), unique=True, editable=False)
     payment_info = models.CharField(_("Payment Info"), editable=False, max_length=128)
 
@@ -47,34 +55,30 @@ class Invoice(models.Model):
 
     is_payed = property(_is_payed_admin)
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    @classmethod
+    def remove_old(cls, days):
+        cls.objects.filter(created_on__lt=timezone.now()-timedelta(days=days), payment__isnull=True).delete()
+
+    def save(self, *args, **kwargs):
         sid = transaction.savepoint()
         if self.pk is None:
             i = 1
             while self.pk is None:
 
-                if i > 10:
-                    sleep(0.001)
-
+                # Protection from infinite loop
                 if i > 20:
-                    # Protection from infinite loop
                     raise IntegrityError('Too many iterations while generating unique Invoice number.')
 
+                self.payment_no = random.getrandbits(32)
+
                 try:
-                    self.created_on = datetime.utcnow()
-                    self.created_on = self.created_on - timedelta(microseconds=self.created_on.microsecond % 100)
-
-                    self.payment_no = (self.created_on.hour * 3600 +
-                                       self.created_on.minute * 60 +
-                                       self.created_on.second) * 10000 + (self.created_on.microsecond // 100)
-                    super(Invoice, self).save(force_insert, force_update)
-
+                    super(Invoice, self).save(*args, **kwargs)
                 except IntegrityError:
                     transaction.savepoint_rollback(sid)
 
                 i += 1
         else:
-            super(Invoice, self).save(force_insert, force_update)
+            super(Invoice, self).save(*args, **kwargs)
 
         transaction.savepoint_commit(sid)
         transaction.commit()
@@ -112,4 +116,4 @@ class Payment(models.Model):
     def __unicode__(self):
         return _("%(payment_no)s - %(amount)s WM%(payee_purse)s") % {'payment_no': self.payment_no,
                                                                      'amount': self.amount,
-                                                                     'payee_purse': self.payee_purse[0]}
+                                                                     'payee_purse': self.payee_purse.purse}

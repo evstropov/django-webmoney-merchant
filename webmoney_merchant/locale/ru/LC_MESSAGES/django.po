@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-25 14:02+0600\n"
+"POT-Creation-Date: 2015-09-06 21:43+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr "Номер платежа"
 msgid "Prerequest flag"
 msgstr "Флаг предзапроса"
 
-#: forms.py:38 models.py:94
+#: forms.py:38 models.py:97
 msgid "Amount"
 msgstr "Сумма"
 
@@ -59,92 +59,92 @@ msgstr "кошелек"
 msgid "purses"
 msgstr "кошельки"
 
-#: models.py:27
+#: models.py:34
 msgid "User"
 msgstr "Пользователь"
 
-#: models.py:28 models.py:91
+#: models.py:35 models.py:94
 msgid "Created on"
 msgstr "Дата создания"
 
-#: models.py:29
+#: models.py:36
 msgid "Payment on"
 msgstr "Номер платежа"
 
-#: models.py:30
+#: models.py:37
 msgid "Payment Info"
 msgstr "Информация о платеже"
 
-#: models.py:33
+#: models.py:40
 msgid "invoice"
 msgstr "инвойс"
 
-#: models.py:34
+#: models.py:41
 msgid "invoices"
 msgstr "инвойсы"
 
-#: models.py:45
+#: models.py:52
 msgid "is payed"
 msgstr "оплачен"
 
-#: models.py:46 models.py:109
+#: models.py:53 models.py:112
 msgid "payment"
 msgstr "платеж"
 
-#: models.py:83
+#: models.py:86
 #, python-format
 msgid "%(payment_no)s/%(created_on)s (for: %(user)s)"
 msgstr "%(payment_no)s/%(created_on)s (для: %(user)s)"
 
-#: models.py:92
+#: models.py:95
 msgid "Invoice"
 msgstr "Инвойс"
 
-#: models.py:93
+#: models.py:96
 msgid "Payee purse"
 msgstr "Кошелек получателя"
 
-#: models.py:95
+#: models.py:98
 msgid "Payment no"
 msgstr "Номер платежа"
 
-#: models.py:96
+#: models.py:99
 msgid "Mode"
 msgstr "Режим"
 
-#: models.py:100
+#: models.py:103
 msgid "Payer purse"
 msgstr "Кошелек плательщика"
 
-#: models.py:101
+#: models.py:104
 msgid "Payer WM"
 msgstr "WM платедьщика"
 
-#: models.py:102
+#: models.py:105
 msgid "Paymer number"
 msgstr "Номер плательщика"
 
-#: models.py:103
+#: models.py:106
 msgid "Paymer email"
 msgstr "Email плательщика"
 
-#: models.py:104
+#: models.py:107
 msgid "Phone number"
 msgstr "Номер телефона"
 
-#: models.py:105
+#: models.py:108
 msgid "Order id"
 msgstr "Номер заказа"
 
-#: models.py:106
+#: models.py:109
 msgid "Credit days"
 msgstr "Кредитные дни"
 
-#: models.py:110
+#: models.py:113
 msgid "payments"
 msgstr "платежи"
 
-#: models.py:113
+#: models.py:116
 #, python-format
 msgid "%(payment_no)s - %(amount)s WM%(payee_purse)s"
 msgstr "%(payment_no)s - %(amount)s WM%(payee_purse)s"
