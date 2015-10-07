@@ -59,7 +59,11 @@ def result(request):
                 payment.invoice = invoice
             except ObjectDoesNotExist:
                 mail_admins('Unprocessed calculation_of_the_end_date without invoice!',
-                            'Payment NO is %s.' % payment_no, fail_silently=True)
+                            'Payment NO is %s.' % payment_no)
+                return HttpResponseBadRequest("Invoice with number %s not found." % payment_no)
+
+            invoice.is_payed = True
+            invoice.save()
             payment.save()
 
             webmoney_payment_accepted.send(sender=payment.__class__, payment=payment)

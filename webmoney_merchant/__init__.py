@@ -1,4 +1,4 @@
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 

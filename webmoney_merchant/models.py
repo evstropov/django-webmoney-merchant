@@ -36,28 +36,11 @@ class Invoice(models.Model):
     created_on = models.DateTimeField(_("Created on"), unique=True, editable=False, auto_now_add=True)
     payment_no = models.PositiveIntegerField(_("Payment on"), unique=True, editable=False)
     payment_info = models.CharField(_("Payment Info"), editable=False, max_length=128)
-
-    class Meta:
-        verbose_name = _("invoice")
-        verbose_name_plural = _("invoices")
-
-    def _is_payed_admin(self):
-        try:
-            self.payment
-        except ObjectDoesNotExist:
-            return False
-        else:
-            return True
-
-    _is_payed_admin.boolean = True
-    _is_payed_admin.short_description = _('is payed')
-    _is_payed_admin.admin_order_field = _('payment')
-
-    is_payed = property(_is_payed_admin)
+    is_payed = models.BooleanField(verbose_name=_('Is payed'), default=False)
 
     @classmethod
     def remove_old(cls, days):
-        cls.objects.filter(created_on__lt=timezone.now()-timedelta(days=days), payment__isnull=True).delete()
+        cls.objects.filter(created_on__lt=timezone.now()-timedelta(days=days), is_payed=False).delete()
 
     def save(self, *args, **kwargs):
         sid = transaction.savepoint()
