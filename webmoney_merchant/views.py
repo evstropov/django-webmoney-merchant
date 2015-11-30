@@ -77,30 +77,30 @@ def result(request):
 
 
 @csrf_exempt
-@require_POST
 def success(request):
     response = {}
-    form = SettledPaymentForm(request.POST)
-    if form.is_valid():
-        response = {
-            'id': form.cleaned_data['LMI_PAYMENT_NO'],
-            'sys_invs_no': form.cleaned_data['LMI_SYS_INVS_NO'],
-            'sys_trans_no': form.cleaned_data['LMI_SYS_TRANS_NO'],
-            'date': form.cleaned_data['LMI_SYS_TRANS_DATE'],
-        }
+    if request.POST:
+        form = SettledPaymentForm(request.POST)
+        if form.is_valid():
+            response = {
+                'id': form.cleaned_data['LMI_PAYMENT_NO'],
+                'sys_invs_no': form.cleaned_data['LMI_SYS_INVS_NO'],
+                'sys_trans_no': form.cleaned_data['LMI_SYS_TRANS_NO'],
+                'date': form.cleaned_data['LMI_SYS_TRANS_DATE'],
+            }
     return render_to_response('webmoney_merchant/success.html', response)
 
 
 @csrf_exempt
-@require_POST
 def fail(request):
     response = {}
-    form = UnSettledPaymentForm(request.POST)
-    if form.is_valid():
-        response = {
-            'id': form.cleaned_data['LMI_PAYMENT_NO'],
-            'sys_invs_no': form.cleaned_data['LMI_SYS_INVS_NO'],
-            'sys_trans_no': form.cleaned_data['LMI_SYS_TRANS_NO'],
-            'date': form.cleaned_data['LMI_SYS_TRANS_DATE'],
-        }
+    if request.POST:
+        form = UnSettledPaymentForm(request.POST)
+        if form.is_valid():
+            response = {
+                'id': form.cleaned_data['LMI_PAYMENT_NO'],
+                'sys_invs_no': form.cleaned_data['LMI_SYS_INVS_NO'],
+                'sys_trans_no': form.cleaned_data['LMI_SYS_TRANS_NO'],
+                'date': form.cleaned_data['LMI_SYS_TRANS_DATE'],
+            }
     return render_to_response('webmoney_merchant/fail.html', response)
